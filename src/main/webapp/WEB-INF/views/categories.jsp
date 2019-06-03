@@ -13,10 +13,15 @@
 </head>
 <body>
 
-    <c:forEach var="c" items="${categories}">
-        <h3>Category name <c:out value="${c.name}"/></h3>
-        <h4>Category description <c:out value="${c.description}"/></h4>
-    </c:forEach>
+    <div>
+        <c:forEach var="c" items="${categories}">
+            <h3>Category name <c:out value="${c.name}"/></h3>
+            <h4>Category description <c:out value="${c.description}"/></h4>
+            <a href="<c:url value="/edit-category?c_id=${c.id}"/>">Edit</a>
+        </c:forEach>
+
+    </div>
+
 
 </body>
 </html>

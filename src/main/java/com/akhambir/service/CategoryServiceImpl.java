@@ -20,4 +20,19 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<List<Category>> getAll() {
         return categoryDao.getAll();
     }
+
+    @Override
+    public Optional<Category> create(Category category) {
+        return categoryDao.create(category);
+    }
+
+    @Override
+    public Optional<Category> getById(Long id) {
+        return categoryDao.getById(id);
+    }
+
+    @Override
+    public Optional<Category> update(Category category) {
+        return categoryDao.update(category);
+    }
 }

@@ -2,6 +2,10 @@ package com.akhambir.model;
 
 public class Category {
 
+    private Long id;
+    private String name;
+    private String description;
+
     public Category() {
     }
 
@@ -10,10 +14,6 @@ public class Category {
         this.name = name;
         this.description = description;
     }
-
-    private Long id;
-    private String name;
-    private String description;
 
     public Long getId() {
         return id;

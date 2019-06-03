@@ -1,8 +1,11 @@
 package com.akhambir.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.WebApplicationInitializer;
@@ -19,6 +22,7 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @Configuration
 @ComponentScan("com.akhambir")
+@PropertySource("classpath:application.properties")
 public class ApplicationConfiguration implements WebApplicationInitializer {
 
     @Bean
@@ -30,12 +34,12 @@ public class ApplicationConfiguration implements WebApplicationInitializer {
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(Environment env) {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl("jdbc:h2:tcp://localhost/~/jv-mar-2019");
-        ds.setDriverClassName("org.h2.Driver");
-        ds.setUsername("sa");
-        ds.setPassword("");
+        ds.setUrl(env.getProperty("db.url"));
+        ds.setDriverClassName(env.getProperty("db.driver"));
+        ds.setUsername(env.getProperty("db.username"));
+        ds.setPassword(env.getProperty("db.password"));
         return ds;
     }
 
