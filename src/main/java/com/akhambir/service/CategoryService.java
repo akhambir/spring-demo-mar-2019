@@ -14,4 +14,6 @@ public interface CategoryService {
     Optional<Category> getById(Long id);
 
     Optional<Category> update(Category category);
+
+    void delete(Long id);
 }

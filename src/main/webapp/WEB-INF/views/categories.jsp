@@ -18,10 +18,14 @@
             <h3>Category name <c:out value="${c.name}"/></h3>
             <h4>Category description <c:out value="${c.description}"/></h4>
             <a href="<c:url value="/edit-category?c_id=${c.id}"/>">Edit</a>
+            <a href="<c:url value="/delete-category?c_id=${c.id}"/>">Delete</a>
         </c:forEach>
-
     </div>
 
+    <div style="margin-top: 50px">
+        <h3>Add category</h3>
+        <a href="<c:url value="/add-category"/>">Add</a>
+    </div>
 
 </body>
 </html>

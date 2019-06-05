@@ -1,4 +1,4 @@
-package com.akhambir.dao;
+package com.akhambir.jdbc_template_dao;
 
 import com.akhambir.model.Category;
 
@@ -14,4 +14,6 @@ public interface CategoryDao {
     Optional<Category> getById(Long id);
 
     Optional<Category> update(Category category);
+
+    void delete(Long id);
 }

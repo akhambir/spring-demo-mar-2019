@@ -1,6 +1,6 @@
-package com.akhambir.dao;
+package com.akhambir.jdbc_template_dao;
 
-import com.akhambir.dao.templates.CategoryJdbcTemplate;
+import com.akhambir.jdbc_template_dao.templates.CategoryJdbcTemplate;
 import com.akhambir.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("categoryDao1")
+//@Repository("categoryDao1")
 public class CategoryDaoImpl implements CategoryDao {
 
-    @Autowired
+    //@Autowired
     private CategoryJdbcTemplate template;
 
     @Override
@@ -32,5 +32,10 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Optional<Category> update(Category category) {
         return template.update(category);
+    }
+
+    @Override
+    public void delete(Long id) {
+        template.delete(id);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Collections;
 import java.util.List;
 
+
 @Controller
 public class CategoryController {
 
@@ -21,13 +22,9 @@ public class CategoryController {
 
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public ModelAndView getAll(ModelAndView mw) {
-         List<Category> categories = categoryService.getAll()
-                 .orElseGet(Collections::emptyList);
+    public ModelAndView getAll() {
 
-         mw.addObject("categories", categories);
-         mw.setViewName("categories");
-         return mw;
+        return getAllCategoriesAndBindToMw();
     }
 
     @RequestMapping(value = "/add-category", method = RequestMethod.GET)
@@ -38,14 +35,10 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/add-category", method = RequestMethod.POST)
-    public ModelAndView create(@ModelAttribute Category category, ModelAndView mw) {
+    public ModelAndView create(@ModelAttribute Category category) {
         categoryService.create(category);
-        List<Category> categories = categoryService.getAll()
-                .orElseGet(Collections::emptyList);
 
-        mw.addObject("categories", categories);
-        mw.setViewName("categories");
-        return mw;
+        return getAllCategoriesAndBindToMw();
     }
 
     @RequestMapping(value = "/edit-category", method = RequestMethod.GET)
@@ -56,13 +49,44 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/edit-category", method = RequestMethod.POST)
-    public ModelAndView edit(@ModelAttribute Category category, ModelAndView mw) {
+    public ModelAndView edit(@ModelAttribute Category category) {
         categoryService.update(category);
 
-        List<Category> categories = categoryService.getAll()
+        return getAllCategoriesAndBindToMw();
+    }
+
+    @RequestMapping(value = "/delete-category", method = RequestMethod.GET)
+    public ModelAndView delete(@RequestParam("c_id") Long id, ModelAndView mw) {
+        categoryService.delete(id);
+
+        return getAllCategoriesAndBindToMw();
+
+
+
+        /*return fetchAllCategories
+
+        return bindModelAndView.apply(mw).andThen()
+
+                .apply(categoryService.getAll()
+                .orElseGet(Collections::emptyList))
+                .apply(mw);*/
+    }
+
+    /*private Supplier<List<Category>> fetchAllCategories = () -> categoryService.getAll()
+            .orElseGet(Collections::emptyList);
+
+    private Function<ModelAndView, Function<List<Category>, ModelAndView>> bindModelAndView = l -> mw -> {
+        mw.addObject("categories", l);
+        mw.setViewName("categories");
+        return mw;
+    };*/
+
+    private ModelAndView getAllCategoriesAndBindToMw() {
+        List<Category> list = categoryService.getAll()
                 .orElseGet(Collections::emptyList);
 
-        mw.addObject("categories", categories);
+        ModelAndView mw = new ModelAndView();
+        mw.addObject("categories", list);
         mw.setViewName("categories");
         return mw;
     }
