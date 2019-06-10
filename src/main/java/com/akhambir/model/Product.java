@@ -6,18 +6,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "CATEGORIES")
-@NamedEntityGraph(name = "Category.products",
-        attributeNodes = @NamedAttributeNode("products"))
-public class Category {
+@Table(name = "PRODUCTS")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,17 +21,11 @@ public class Category {
     private String name;
     @Column(name = "DESCRIPTION")
     private String description;
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<Product> products = new ArrayList<>();
-
-    public Category() {
-    }
-
-    public Category(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+    @Column(name = "PRICE")
+    private Double price;
+    @JoinColumn(name = "FK_CATEGORY_ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Category category;
 
     public Long getId() {
         return id;
@@ -62,11 +51,19 @@ public class Category {
         this.description = description;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

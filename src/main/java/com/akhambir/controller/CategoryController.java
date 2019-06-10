@@ -20,6 +20,15 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public ModelAndView test(@ModelAttribute Category category, ModelAndView mw) {
+        Category result = categoryService.increaseProductsPriceBy10P(category)
+                .orElseGet(Category::new);
+
+        mw.addObject("category", result);
+        mw.setViewName("edit-category");
+        return mw;
+    }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ModelAndView getAll() {
@@ -43,7 +52,11 @@ public class CategoryController {
 
     @RequestMapping(value = "/edit-category", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam("c_id") Long id, ModelAndView mw) {
-        mw.addObject("category", categoryService.getById(id));
+        //TODO rewrite, bad practice
+        Category result = categoryService.getByIdWithProducts(id)
+                .orElseGet(Category::new);
+
+        mw.addObject("category", result);
         mw.setViewName("edit-category");
         return mw;
     }

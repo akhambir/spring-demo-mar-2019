@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: oleksandrkh
@@ -22,5 +23,24 @@
         <spring:input path="description" id="description"/>
         <button type="submit">Submit</button>
     </spring:form>
+
+    <h3>Products:</h3>
+
+    <table style="width:50%">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        <c:forEach var="p" items="${category.products}">
+            <tr>
+                <td>${p.name}</td>
+                <td>${p.description}</td>
+                <td>${p.price}</td>
+            </tr>
+        </c:forEach>
+
+    </table>
+
 </body>
 </html>
