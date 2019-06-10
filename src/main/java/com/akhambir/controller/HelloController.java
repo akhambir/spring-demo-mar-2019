@@ -25,7 +25,7 @@ public class HelloController {
         return mw;
     }
 
-    @RequestMapping(value = "/add-user", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/add-user", method = RequestMethod.GET)
     public ModelAndView addUser(ModelAndView mw) {
         mw.addObject("user", new User());
         mw.setViewName("add-user");
@@ -37,5 +37,5 @@ public class HelloController {
         //userService.addUser(user);
         System.out.println();
         return null;
-    }
+    }*/
 }
