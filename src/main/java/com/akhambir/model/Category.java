@@ -1,5 +1,6 @@
 package com.akhambir.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +27,9 @@ public class Category {
     private String name;
     @Column(name = "DESCRIPTION")
     private String description;
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
     public Category() {

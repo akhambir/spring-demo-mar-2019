@@ -1,7 +1,5 @@
 package com.akhambir.configuration;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +8,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -21,6 +17,9 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.persistence.EntityManagerFactory;
@@ -35,7 +34,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories("com.akhambir.dao")
 @PropertySource("classpath:application.properties")
-public class ApplicationConfiguration implements WebApplicationInitializer {
+public class ApplicationConfiguration implements WebApplicationInitializer, WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -72,21 +71,6 @@ public class ApplicationConfiguration implements WebApplicationInitializer {
         return transactionManager;
     }
 
-    /*@Bean
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
-        sf.setDataSource(dataSource);
-        sf.setPackagesToScan("com.akhambir.model");
-        return sf;
-    }
-
-    @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sf) {
-        HibernateTransactionManager tm = new HibernateTransactionManager();
-        tm.setSessionFactory(sf);
-        return tm;
-    }*/
-
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
@@ -99,6 +83,13 @@ public class ApplicationConfiguration implements WebApplicationInitializer {
         jpaProperties.put("hibernate.show_sql", "true");
         jpaProperties.put("hibernate.format_sql", "true");
         return jpaProperties;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
 
     public void onStartup(ServletContext servletContext) {

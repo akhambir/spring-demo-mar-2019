@@ -13,6 +13,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getById(Long id);
 
     @EntityGraph("User.roles")
+    Optional<User> getByEmail(String email);
+
+    @EntityGraph("User.roles")
     List<User> findAll();
 
 }

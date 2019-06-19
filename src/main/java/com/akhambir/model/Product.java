@@ -1,5 +1,6 @@
 package com.akhambir.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ public class Product {
     @Column(name = "PRICE")
     private Double price;
     @JoinColumn(name = "FK_CATEGORY_ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Category category;
 
     public Long getId() {
