@@ -5,11 +5,13 @@ import com.akhambir.model.User;
 import com.akhambir.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,14 +51,20 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register(ModelAndView mw) {
-        mw.addObject("user", new UserRegistrationPayload());
+        mw.addObject("userRegistrationPayload", new UserRegistrationPayload());
         mw.setViewName("register");
         return mw;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView register(@ModelAttribute UserRegistrationPayload urp, ModelAndView mw) {
-        mw.addObject("user", userService.add(User.of(urp)));
+    public ModelAndView register(@Valid @ModelAttribute UserRegistrationPayload urp, BindingResult br, ModelAndView mw) {
+        if (br.hasErrors()) {
+            mw.addAllObjects(br.getModel());
+            mw.setViewName("register");
+            return mw;
+        }
+        userService.add(User.of(urp));
+        mw.addObject("user", new User() );
         mw.setViewName("login");
         return mw;
     }

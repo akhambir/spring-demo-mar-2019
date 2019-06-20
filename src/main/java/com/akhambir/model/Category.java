@@ -1,5 +1,7 @@
 package com.akhambir.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

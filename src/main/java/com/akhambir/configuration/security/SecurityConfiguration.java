@@ -36,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic().disable()
                 .formLogin()
+                .usernameParameter("email")
                 .loginPage("/login")
                 .defaultSuccessUrl("/home")
                 .failureUrl("/login?error")

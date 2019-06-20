@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
@@ -93,6 +94,13 @@ public class CategoryController {
         mw.setViewName("categories");
         return mw;
     };*/
+
+    @ResponseBody
+    @RequestMapping(value = "/api/category", method = RequestMethod.GET)
+    public List<Category> getAllAsJson() {
+        return categoryService.getAll()
+                .orElseGet(Collections::emptyList);
+    }
 
     private ModelAndView getAllCategoriesAndBindToMw() {
         List<Category> list = categoryService.getAll()

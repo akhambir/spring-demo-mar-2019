@@ -1,11 +1,22 @@
 package com.akhambir.controller.external.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserRegistrationPayload {
 
     private String firstName;
     private String lastName;
+    @Email
+    @NotBlank
     private String email;
+    @NotNull
+    @Size(min = 8)
     private String password;
+    @NotNull
+    @Size(min = 8)
     private String repeatedPassword;
 
     public String getFirstName() {

@@ -87,11 +87,6 @@ public class User {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        role.addUser(this);
-        this.roles.add(role);
-    }
-
     public static User of(UserRegistrationPayload urp) {
         User result = new User();
         result.setFirstName(urp.getFirstName());

@@ -22,8 +22,10 @@
 
 <body class="text-center">
 
-<spring:form class="form-signin" action="/register" modelAttribute="user" method="post">
+<spring:form class="form-signin" action="/register" modelAttribute="userRegistrationPayload" method="post">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+    <spring:errors path="*" cssStyle="color: red" cssClass="errorblock" element="div" />
 
     <label for="firstName" class="sr-only">First Name</label>
     <spring:input path="firstName" type="text" id="firstName" class="form-control" placeholder="First Name" autofocus="true"/>

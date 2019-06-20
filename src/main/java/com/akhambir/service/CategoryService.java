@@ -9,6 +9,8 @@ public interface CategoryService {
 
     Optional<List<Category>> getAll();
 
+    Optional<List<Category>> getAllWithProducts();
+
     Optional<Category> create(Category category);
 
     Optional<Category> getById(Long id);

@@ -22,13 +22,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 
-    public Role() {
-    }
-
-    public Role(Long id, String name) {
-        this.name = name;
-    }
-
     public Long getId() {
         return id;
     }
@@ -53,7 +46,9 @@ public class Role {
         this.users = users;
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
+    public static Role ofUser() {
+        Role r = new Role();
+        r.setId(1L);
+        return r;
     }
 }

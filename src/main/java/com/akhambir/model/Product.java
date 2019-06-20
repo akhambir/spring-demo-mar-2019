@@ -1,5 +1,7 @@
 package com.akhambir.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +26,7 @@ public class Product {
     private String description;
     @Column(name = "PRICE")
     private Double price;
+    @JsonBackReference
     @JoinColumn(name = "FK_CATEGORY_ID")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Category category;

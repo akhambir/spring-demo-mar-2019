@@ -23,6 +23,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<List<Category>> getAllWithProducts() {
+        return Optional.of(categoryRepository.findAll());
+    }
+
+    @Override
     public Optional<Category> create(Category category) {
         return Optional.of(categoryRepository.save(category));
     }
