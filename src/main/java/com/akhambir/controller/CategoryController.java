@@ -3,14 +3,19 @@ package com.akhambir.controller;
 import com.akhambir.model.Category;
 import com.akhambir.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
@@ -97,9 +102,42 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value = "/api/category", method = RequestMethod.GET)
-    public List<Category> getAllAsJson() {
+    public ResponseEntity<List<Category>> getAllAsJson() {
         return categoryService.getAll()
-                .orElseGet(Collections::emptyList);
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/category/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Category> getById(@PathVariable Long id) {
+        return categoryService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/category", method = RequestMethod.POST)
+    public ResponseEntity<Category> add(@RequestBody Category category) {
+        return categoryService.create(category)
+                .map(c -> ResponseEntity.created(toUri(c.getId())).body(c))
+                .orElseGet(ResponseEntity.status(HttpStatus.CONFLICT)::build);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/category/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
+        category.setId(id);
+        return categoryService.update(category)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.status(HttpStatus.CONFLICT)::build);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/category/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     private ModelAndView getAllCategoriesAndBindToMw() {
@@ -110,5 +148,9 @@ public class CategoryController {
         mw.addObject("categories", list);
         mw.setViewName("categories");
         return mw;
+    }
+
+    private URI toUri(Long id) {
+        return URI.create(String.format("/api/ /%s", id));
     }
 }
